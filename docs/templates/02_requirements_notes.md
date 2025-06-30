@@ -36,8 +36,7 @@ source .venv/bin/activate  # Windowsの場合は .venv\Scripts\activate
 
 ### 依存ライブラリをインストール
 ```bash
-pip install -r requirements.txt
-pip install -r installer/requirements.txt
+pip install -r requirements.txt #または pip install -r installer/requirements.txt
 ```
 
 ---
