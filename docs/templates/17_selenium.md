@@ -1,12 +1,12 @@
 # Seleniumでのセレクターの使い方ルール
-## 【目的】
 
-SeleniumでWebページを動かすとき、ボタンやテキストなどを正しく見つけるためのルールを決めます。
+## 【目的】
+SeleniumでWebページを動かすとき、ボタンやテキストなどを正しく見つけるためのルールを決めます。  
 チームみんなが同じやり方をすれば、エラーが少なく、あとから見た人もすぐにわかるようになります。
 
 ## 【理由】
-
 セレクター（ページの中の「どの部分か」を示す情報）をバラバラに使うと、次のような問題が起きます：
+
 - ページのちょっとした変更で動かなくなる
 - 他の人がコードを見たときに、どこを触っているのか分かりにくい
 - 同じページでセレクターの書き方がバラバラになると、修正が大変
@@ -17,29 +17,25 @@ SeleniumでWebページを動かすとき、ボタンやテキストなどを正
 
 Seleniumで要素を探すときの優先順位は以下の順番で統一します：
 
-```markdown
 | 優先度 | 方法             | 内容・説明例 |
 |--------|------------------|------------------------------|
-| ①      | `By.ID`          | 一番安全で速い。IDがあるなら必ずこれを使う。<br>例：`driver.find_element(By.ID, "submit-button")` |
-| ②      | `By.NAME`        | フォームの入力欄などによく使われる。<br>例：`driver.find_element(By.NAME, "username")` |
-| ③      | `By.CLASS_NAME`  | クラス名がユニークなときだけ使う。複数ある場合は注意。<br>例：`driver.find_element(By.CLASS_NAME, "main-title")` |
-| ④      | `By.CSS_SELECTOR`| IDやクラスが使えないときに使う。複雑になりすぎないように注意。<br>例：`driver.find_element(By.CSS_SELECTOR, "div.content > button")` |
-| ⑤      | `By.XPATH`       | 他の方法が使えないときの最後の手段。長くなりやすい。<br>例：`driver.find_element(By.XPATH, "//div[@class='box']/button[1]")` |
-```
+| ①      | `By.ID`          | 一番安全で速い。IDがあるならこれを使う。例：`driver.find_element(By.ID, "submit-button")` |
+| ②      | `By.NAME`        | フォームの入力欄によく使われる。例：`driver.find_element(By.NAME, "username")` |
+| ③      | `By.CLASS_NAME`  | クラス名がユニークなときのみ。例：`driver.find_element(By.CLASS_NAME, "main-title")` |
+| ④      | `By.CSS_SELECTOR`| IDやクラスが使えないとき。例：`driver.find_element(By.CSS_SELECTOR, "div.content > button")` |
+| ⑤      | `By.XPATH`       | 他の方法が使えないときの最後の手段。例：`driver.find_element(By.XPATH, "//div[@class='box']/button[1]")` |
 
-
-※ By.TAG_NAME や By.LINK_TEXT などは特別なときのみ使用可とします。
+※ `By.TAG_NAME` や `By.LINK_TEXT` は特別なときのみ使用可。
 
 ## 【ポイント】
 - IDがあるなら迷わずIDを使う。
 - XPathやCSSは便利だけど、読みやすさ・保守性に注意。
 - 見つけたい要素に「ユニークな属性」がないかをまず探す。
-- Selenium IDEのコピーそのまま使わない。（不要に長くなったり壊れやすいパスになりがち）
+- Selenium IDEのコピーそのまま使わない（不要に長くなったり壊れやすいパスになりがち）
 
 ## 【補足（任意）】
-
 ### よくある失敗
-- クラス名で要素を取ったが、複数あって別の要素がヒットしてしまった。
-- XPathを深すぎる階層で書いたため、レイアウト変更ですぐ壊れた。
-- ページのロードが遅くて、要素が見つかる前にエラーになった。
-　→ WebDriverWait を使うと改善できます。
+- クラス名で要素を取ったが、複数あって別の要素がヒットした。
+- XPathを深すぎる階層で書いてレイアウト変更ですぐ壊れた。
+- ページのロードが遅くて要素が見つかる前にエラーになった。  
+　→ `WebDriverWait` を使うと改善できます。
